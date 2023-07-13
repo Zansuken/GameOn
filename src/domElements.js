@@ -1,0 +1,16 @@
+export const modalbg = document.querySelector(".bground");
+export const modalBtn = document.querySelectorAll(".modal-btn");
+export const formData = document.querySelectorAll(".formData");
+export const closeBtn = document.querySelector(".close");
+export const firstNameInput = document.getElementById("first");
+export const lastNameInput = document.getElementById("last");
+export const emailInput = document.getElementById("email");
+export const birthDateInput = document.getElementById("birthdate");
+export const participationsInput = document.getElementById("quantity");
+export const locationInput = document.querySelectorAll(".checkbox-input");
+export const termsInput = document.getElementById("checkbox1");
+export const termsLabel = termsInput.nextElementSibling;
+export const subscribeInput = document.getElementById("checkbox2");
+export const subscribeLabel = subscribeInput.nextElementSibling;
+export const submitBtn = document.querySelector(".btn-submit");
+export const form = document.getElementById("form");

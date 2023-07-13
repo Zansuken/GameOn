@@ -1,4 +1,40 @@
 import {
+  birthDate,
+  birthDateErrorMessage,
+  chosenLocation,
+  email,
+  emailErrorMessage,
+  firstName,
+  formDefaultState,
+  invalidStyle,
+  lastName,
+  locationErrorMessage,
+  namesErrorMessage,
+  participations,
+  participationsErrorMessage,
+  subscribe,
+  terms,
+  termsErrorMessage,
+  validStyle,
+} from "./constants.js";
+import {
+  birthDateInput,
+  closeBtn,
+  emailInput,
+  firstNameInput,
+  form,
+  lastNameInput,
+  locationInput,
+  modalBtn,
+  modalbg,
+  participationsInput,
+  submitBtn,
+  subscribeInput,
+  subscribeLabel,
+  termsInput,
+  termsLabel,
+} from "./domElements.js";
+import {
   validateBirthDate,
   validateEmail,
   validateLocation,
@@ -7,8 +43,8 @@ import {
   validateTerms,
 } from "./helpers.js";
 
-const editNav = () => {
-  var x = document.getElementById("myTopnav");
+export const editNav = () => {
+  const x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
     x.className += " responsive";
   } else {
@@ -16,103 +52,15 @@ const editNav = () => {
   }
 };
 
-// DOM Elements
-const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
-const closeBtn = document.querySelector(".close");
-
 // launch modal form
-const launchModal = () => {
+export const launchModal = () => {
   modalbg.style.display = "block";
 };
 
-// launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
 // close modal form
-const closeModal = () => {
+export const closeModal = () => {
   modalbg.style.display = "none";
 };
-
-// close modal event
-closeBtn.addEventListener("click", closeModal);
-
-// Form inputs
-const firstNameInput = document.getElementById("first");
-const lastNameInput = document.getElementById("last");
-const emailInput = document.getElementById("email");
-const birthDateInput = document.getElementById("birthdate");
-const participationsInput = document.getElementById("quantity");
-const locationInput = document.querySelectorAll(".checkbox-input");
-const termsInput = document.getElementById("checkbox1");
-const termsLabel = termsInput.nextElementSibling;
-const subscribeInput = document.getElementById("checkbox2");
-const subscribeLabel = subscribeInput.nextElementSibling;
-const submitBtn = document.querySelector(".btn-submit");
-
-termsInput.checked = false;
-
-termsLabel.addEventListener(
-  "mouseover",
-  () => (termsLabel.style.cursor = "pointer")
-);
-
-subscribeLabel.addEventListener(
-  "mouseover",
-  () => (subscribeLabel.style.cursor = "pointer")
-);
-
-locationInput.forEach((chosenLocation) => {
-  const label = chosenLocation.nextElementSibling;
-  label.addEventListener("mouseover", () => (label.style.cursor = "pointer"));
-});
-
-let formState = {
-  firstName: {
-    value: "",
-    isValid: false,
-  },
-  lastName: {
-    value: "",
-    isValid: false,
-  },
-  email: {
-    value: "",
-    isValid: false,
-  },
-  birthDate: {
-    value: "",
-    isValid: false,
-  },
-  participations: {
-    value: 0,
-    isValid: false,
-  },
-  chosenLocation: {
-    value: null,
-    isValid: false,
-  },
-  terms: {
-    value: false,
-    isValid: false,
-  },
-  subscribe: {
-    value: false,
-    isValid: true,
-  },
-};
-
-const validStyle = "2px solid green";
-const invalidStyle = "2px solid red";
-
-const namesErrorMessage =
-  "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
-const emailErrorMessage = "Veuillez entrer une adresse email valide.";
-const birthDateErrorMessage = "Veuillez entrer une date de naissance valide.";
-const participationsErrorMessage = "Veuillez entrer un nombre valide.";
-const locationErrorMessage = "Veuillez choisir une ville.";
-const termsErrorMessage = "Veuillez accepter les termes et conditions.";
 
 const addErrorMessage = ({ element, inputId }, message) => {
   if (!document.getElementById(`${inputId}-error`)) {
@@ -133,17 +81,6 @@ const removeErrorMessage = (inputId) => {
     errorMessage.remove();
   }
 };
-
-const {
-  firstName,
-  lastName,
-  email,
-  birthDate,
-  participations,
-  chosenLocation,
-  terms,
-  subscribe,
-} = formState;
 
 const isFormValid = () =>
   firstName.isValid &&
@@ -167,12 +104,10 @@ const setSubmitBtnEnabled = () => {
   submitBtn.style.backgroundColor = "#fe142f";
 };
 
-setSubmitBtnDisabled();
-
 const setSubmitBtnState = (isEnabled) =>
   isEnabled ? setSubmitBtnEnabled() : setSubmitBtnDisabled();
 
-const handleInputChange = ({
+export const handleInputChange = ({
   input: { element, inputId },
   value,
   validationFunction,
@@ -180,7 +115,7 @@ const handleInputChange = ({
 }) => {
   if (validationFunction) {
     const isValid = validationFunction(value);
-    formState[inputId].isValid = isValid;
+    formDefaultState[inputId].isValid = isValid;
     if (withStyle) {
       if (isValid) {
         element.style.border = validStyle;
@@ -237,14 +172,27 @@ const handleInputChange = ({
       }
     }
   }
-  formState[inputId].value = value;
-
-  if (isFormValid()) {
-    setSubmitBtnState(true);
-  } else {
-    setSubmitBtnState(false);
-  }
+  formDefaultState[inputId].value = value;
 };
+
+modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
+
+closeBtn.addEventListener("click", closeModal);
+
+termsLabel.addEventListener("mouseover", () => {
+  termsLabel.style.cursor = "pointer";
+});
+
+subscribeLabel.addEventListener("mouseover", () => {
+  subscribeLabel.style.cursor = "pointer";
+});
+
+locationInput.forEach((chosenLocation) => {
+  const label = chosenLocation.nextElementSibling;
+  label.addEventListener("mouseover", () => {
+    label.style.cursor = "pointer";
+  });
+});
 
 firstNameInput.addEventListener("input", (e) =>
   handleInputChange({
@@ -314,4 +262,15 @@ subscribeInput.addEventListener("change", () => {
     input: { element: subscribeInput, inputId: "subscribe" },
     value: subscribeInput,
   });
+});
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (isFormValid()) {
+    setSubmitBtnState(true);
+  } else {
+    setSubmitBtnState(false);
+  }
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
 });

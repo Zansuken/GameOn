@@ -1,17 +1,22 @@
-export const validateNames = (value) => value.length > 2;
+import { locationInput, termsInput } from "./domElements.js";
+
+const isEmpty = (value) => value.trim() === "";
+
+export const validateNames = (value) => value.length > 2 && !isEmpty(value);
 
 export const validateEmail = (email) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
+  return regex.test(email) && !isEmpty(email);
 };
 
 export const validateBirthDate = (date) => {
   const currentDate = new Date();
   const birthDate = new Date(date);
-  return currentDate > birthDate;
+  return currentDate > birthDate && !isEmpty(date);
 };
 
-export const validateParticipations = (number) => number >= 0;
+export const validateParticipations = (number) =>
+  number >= 0 && !isEmpty(number);
 
 export const validateLocation = () => {
   let checked = false;
