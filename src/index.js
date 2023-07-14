@@ -1,39 +1,39 @@
-import {
-  birthDate,
-  birthDateErrorMessage,
-  chosenLocation,
-  email,
-  emailErrorMessage,
-  firstName,
-  formDefaultState,
-  invalidStyle,
-  lastName,
-  locationErrorMessage,
-  namesErrorMessage,
-  participations,
-  participationsErrorMessage,
-  subscribe,
-  terms,
-  termsErrorMessage,
-  validStyle,
-} from "./constants.js";
+import { errorMessages, formState, invalidStyle } from "./constants.js";
 import {
   birthDateInput,
   closeBtn,
+  editNavLink,
   emailInput,
   firstNameInput,
   form,
+  generateSuccessMessage,
+  inputs,
   lastNameInput,
   locationInput,
+  modal,
+  modalBody,
   modalBtn,
   modalbg,
   participationsInput,
   submitBtn,
   subscribeInput,
   subscribeLabel,
+  successMessageContainer,
   termsInput,
   termsLabel,
 } from "./domElements.js";
+import {
+  addErrorMessage,
+  closeModal,
+  handleInputChange,
+  isFormValid,
+  isSubscriptionSuccess,
+  launchModal,
+  resetFormState,
+  setFormInputsVisibility,
+  setIsSubscriptionSuccess,
+  setSubmitBtnState,
+} from "./form.js";
 import {
   validateBirthDate,
   validateEmail,
@@ -52,128 +52,9 @@ export const editNav = () => {
   }
 };
 
-// launch modal form
-export const launchModal = () => {
-  modalbg.style.display = "block";
-};
+// Events listeners:
 
-// close modal form
-export const closeModal = () => {
-  modalbg.style.display = "none";
-};
-
-const addErrorMessage = ({ element, inputId }, message) => {
-  if (!document.getElementById(`${inputId}-error`)) {
-    const errorMessage = document.createElement("span");
-    // add id to errorMessage
-    errorMessage.id = `${inputId}-error`;
-    errorMessage.style.color = "red";
-    errorMessage.style.fontSize = "0.8rem";
-    errorMessage.style.marginTop = "0.5rem";
-    errorMessage.innerHTML = message;
-    element.after(errorMessage);
-  }
-};
-
-const removeErrorMessage = (inputId) => {
-  const errorMessage = document.getElementById(`${inputId}-error`);
-  if (errorMessage) {
-    errorMessage.remove();
-  }
-};
-
-const isFormValid = () =>
-  firstName.isValid &&
-  lastName.isValid &&
-  email.isValid &&
-  birthDate.isValid &&
-  participations.isValid &&
-  chosenLocation.isValid &&
-  terms.isValid &&
-  subscribe.isValid;
-
-const setSubmitBtnDisabled = () => {
-  submitBtn.setAttribute("disabled", true);
-  submitBtn.style.cursor = "not-allowed";
-  submitBtn.style.backgroundColor = "grey";
-};
-
-const setSubmitBtnEnabled = () => {
-  submitBtn.removeAttribute("disabled");
-  submitBtn.style.cursor = "pointer";
-  submitBtn.style.backgroundColor = "#fe142f";
-};
-
-const setSubmitBtnState = (isEnabled) =>
-  isEnabled ? setSubmitBtnEnabled() : setSubmitBtnDisabled();
-
-export const handleInputChange = ({
-  input: { element, inputId },
-  value,
-  validationFunction,
-  withStyle,
-}) => {
-  if (validationFunction) {
-    const isValid = validationFunction(value);
-    formDefaultState[inputId].isValid = isValid;
-    if (withStyle) {
-      if (isValid) {
-        element.style.border = validStyle;
-
-        switch (inputId) {
-          case "firstName":
-          case "lastName":
-            removeErrorMessage(inputId);
-            break;
-          case "email":
-            removeErrorMessage(inputId);
-            break;
-          case "birthDate":
-            removeErrorMessage(inputId);
-            break;
-          case "participations":
-            removeErrorMessage(inputId);
-            break;
-          case "chosenLocation":
-            removeErrorMessage(inputId);
-            break;
-          case "terms":
-            removeErrorMessage(inputId);
-            break;
-          default:
-            break;
-        }
-      } else {
-        element.style.border = invalidStyle;
-
-        switch (inputId) {
-          case "firstName":
-          case "lastName":
-            addErrorMessage({ element, inputId }, namesErrorMessage);
-            break;
-          case "email":
-            addErrorMessage({ element, inputId }, emailErrorMessage);
-            break;
-          case "birthDate":
-            addErrorMessage({ element, inputId }, birthDateErrorMessage);
-            break;
-          case "participations":
-            addErrorMessage({ element, inputId }, participationsErrorMessage);
-            break;
-          case "chosenLocation":
-            addErrorMessage({ element, inputId }, locationErrorMessage);
-            break;
-          case "terms":
-            addErrorMessage({ element, inputId }, termsErrorMessage);
-            break;
-          default:
-            break;
-        }
-      }
-    }
-  }
-  formDefaultState[inputId].value = value;
-};
+editNavLink?.addEventListener("click", editNav);
 
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
@@ -242,7 +123,10 @@ participationsInput.addEventListener("input", (e) =>
 locationInput.forEach((chosenLocation) =>
   chosenLocation.addEventListener("change", () =>
     handleInputChange({
-      input: { element: locationInput, inputId: "chosenLocation" },
+      input: {
+        element: chosenLocation.parentElement,
+        inputId: "chosenLocation",
+      },
       value: locationInput,
       validationFunction: validateLocation,
     })
@@ -252,7 +136,7 @@ locationInput.forEach((chosenLocation) =>
 termsInput.addEventListener("change", () => {
   handleInputChange({
     input: { element: termsInput, inputId: "terms" },
-    value: termsInput,
+    value: termsInput.checked,
     validationFunction: validateTerms,
   });
 });
@@ -266,11 +150,60 @@ subscribeInput.addEventListener("change", () => {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  if (isFormValid()) {
+  // TODO: fix the success message container not being removed
+  console.log(successMessageContainer);
+  if (isSubscriptionSuccess) {
+    // successMessageContainer.remove();
+    closeModal();
+    setFormInputsVisibility(true);
+    setIsSubscriptionSuccess(false);
     setSubmitBtnState(true);
-  } else {
-    setSubmitBtnState(false);
+    submitBtn.setAttribute("value", "C'est parti");
+    form.reset();
+    resetFormState();
+    return;
   }
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
+  if (isFormValid) {
+    setIsSubscriptionSuccess(true);
+
+    setFormInputsVisibility(false);
+
+    submitBtn.setAttribute("value", "Fermer");
+
+    generateSuccessMessage(modalBody);
+  } else {
+    setIsSubscriptionSuccess(false);
+    setSubmitBtnState(false);
+    Object.values(formState).forEach(({ isValid, id }) => {
+      switch (id) {
+        case "chosenLocation":
+          if (!isValid) {
+            addErrorMessage(
+              { element: locationInput[0].parentElement, inputId: id },
+              errorMessages[id]
+            );
+          }
+          break;
+        case "terms":
+          if (!isValid) {
+            addErrorMessage(
+              { element: termsLabel, inputId: id },
+              errorMessages[id]
+            );
+          }
+
+        default:
+          if (!isValid) {
+            inputs[`${id}Input`].style.border = invalidStyle;
+            addErrorMessage(
+              { element: inputs[`${id}Input`], inputId: id },
+              errorMessages[id]
+            );
+          }
+          break;
+      }
+    });
+  }
 });
