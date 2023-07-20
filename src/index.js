@@ -10,10 +10,8 @@ import {
   inputs,
   lastNameInput,
   locationInput,
-  modal,
   modalBody,
   modalBtn,
-  modalbg,
   participationsInput,
   submitBtn,
   subscribeInput,
@@ -150,10 +148,7 @@ subscribeInput.addEventListener("change", () => {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  // TODO: fix the success message container not being removed
-  console.log(successMessageContainer);
   if (isSubscriptionSuccess) {
-    // successMessageContainer.remove();
     closeModal();
     setFormInputsVisibility(true);
     setIsSubscriptionSuccess(false);
@@ -173,6 +168,9 @@ form.addEventListener("submit", (e) => {
     submitBtn.setAttribute("value", "Fermer");
 
     generateSuccessMessage(modalBody);
+
+    // Do something with the data when the form is valid
+    console.log(data);
   } else {
     setIsSubscriptionSuccess(false);
     setSubmitBtnState(false);

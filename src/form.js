@@ -5,7 +5,13 @@ import {
   invalidStyle,
   validStyle,
 } from "./constants.js";
-import { form, inputs, modalbg, submitBtn } from "./domElements.js";
+import {
+  form,
+  inputs,
+  modalbg,
+  submitBtn,
+  successMessageContainer,
+} from "./domElements.js";
 import { debounce } from "./helpers.js";
 
 // Form states:
@@ -68,12 +74,18 @@ export const resetFormState = () => {
   Object.keys(formState).forEach((input) => {
     formState[input] = { ...formDefaultState[input] };
     removeErrorMessage(input);
-    console.log(formState[input], formDefaultState[input]);
   });
-  Object.values(inputs)?.forEach((input) => (input.style.border = "none"));
+  Object.values(inputs)?.forEach(
+    (input) =>
+      !NodeList.prototype.isPrototypeOf(input) && (input.style.border = "none")
+  );
   const formData = new FormData(form);
   form.reset();
+  isFormValid = false;
   setSubmitBtnState(true);
+  if (successMessageContainer()) {
+    successMessageContainer().remove();
+  }
 };
 
 /**

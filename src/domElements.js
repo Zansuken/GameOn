@@ -12,10 +12,10 @@ export const lastNameInput = document.getElementById("last");
 export const emailInput = document.getElementById("email");
 export const birthDateInput = document.getElementById("birthdate");
 export const participationsInput = document.getElementById("quantity");
-export const locationInput = document.querySelectorAll(".checkbox-input");
-export const termsInput = document.getElementById("checkbox1");
+export const locationInput = document.querySelectorAll("#radioGroup > input");
+export const termsInput = document.getElementById("terms");
 export const termsLabel = termsInput.nextElementSibling;
-export const subscribeInput = document.getElementById("checkbox2");
+export const subscribeInput = document.getElementById("newsLetters");
 export const subscribeLabel = subscribeInput.nextElementSibling;
 export const inputs = {
   firstNameInput,
@@ -23,6 +23,7 @@ export const inputs = {
   emailInput,
   birthDateInput,
   participationsInput,
+  locationInput,
   termsInput,
   subscribeInput,
 };
@@ -47,6 +48,5 @@ export const generateSuccessMessage = () => {
   form.prepend(messageContainer);
 };
 export const successMessage = document.querySelector(".success-message");
-export const successMessageContainer = document.querySelector(
-  ".success-message-container"
-);
+export const successMessageContainer = () =>
+  document.querySelector(".success-message-container");
