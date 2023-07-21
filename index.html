@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>Reservation</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Bienvenue sur la page de réservation de l'événement de jeu GameOn ! Rejoignez-nous pour le Marathon National du Jeu, avec des tournois de jeux vidéo passionnants, des places limitées et des parties palpitantes. Inscrivez-vous dès maintenant pour sécuriser votre place dans cette grande fête du jeu qui se déroulera à New York, San Francisco, Seattle, Chicago, Boston et Portland. Ne manquez pas cette expérience de jeu ultime. Réservez votre place dès aujourd'hui !" />    <meta name="keywords" content="Reservation, Marathon national, Jeux vidéos, Gaming event, Réservations, Places limitées, Inscription, Tournois GameOn, New York, San Francisco, Seattle, Chicago, Boston, Portland">
     <link rel="stylesheet" href="modal.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link
@@ -14,8 +15,8 @@
   <body>
     <div class="topnav" id="myTopnav">
       <div class="header-logo">
-      <img alt="logo" src="Logo.png" width="auto" height="auto" />
-    </div>
+      <img alt="logo" src="Logo.png" />
+      </div>
     <div class="main-navbar">
       
       <a href="#" class="active"><span>Accueil</span></a>
@@ -23,7 +24,7 @@
       <a href="#"><span>À propos</span></a>
       <a href="#"><span>Contact</span></a>
       <a href="#"><span>Évènements passés</span></a>
-      <a href="javascript:void(0);" class="icon">
+      <a href="javascript:void(0);" class="icon" title="menu">
         <i class="fa fa-bars"></i>
       </a>
     </div>
@@ -185,7 +186,7 @@
                   id="terms"
                   name="terms"
                 />
-                <label class="checkbox2-label" for="terms" required>
+                <label class="checkbox2-label" for="terms">
                   <span class="checkbox-icon"></span>
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
@@ -201,7 +202,6 @@
                 <input
                 class="btn-submit"
                 type="submit"
-                class="button"
                 value="C'est parti"
                 />
               </div>

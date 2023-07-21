@@ -41,8 +41,7 @@ const removeErrorMessage = (inputId) => {
  */
 const setSubmitBtnDisabled = () => {
   submitBtn.setAttribute("disabled", true);
-  submitBtn.style.cursor = "not-allowed";
-  submitBtn.style.backgroundColor = "grey";
+  submitBtn.classList.add("btn-disabled");
 };
 
 /**
@@ -52,8 +51,7 @@ const setSubmitBtnDisabled = () => {
  */
 const setSubmitBtnEnabled = () => {
   submitBtn.removeAttribute("disabled");
-  submitBtn.style.cursor = "pointer";
-  submitBtn.style.backgroundColor = "#fe142f";
+  submitBtn.classList.remove("btn-disabled");
 };
 
 /**

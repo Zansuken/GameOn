@@ -160,20 +160,6 @@ main {
   gap: 0.5rem;
 }
 
-.button {
-  background: #fe142f;
-  margin-top: 0.5em;
-  padding: 1em;
-  color: #fff;
-  border-radius: 15px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.button:hover {
-  background: #3876ac;
-}
-
 .smFont {
   font-size: 16px;
 }
@@ -387,6 +373,17 @@ input[data-error]::after {
   cursor: pointer;
   border: 0;
 }
+
+.btn-submit:hover,
+.btn-submit:hover {
+  background: #3876ac;
+}
+
+.btn-disabled {
+  background: grey;
+  color: #fff;
+  cursor: not-allowed;
+}
 /* custom select styles */
 .custom-select {
   position: relative;
@@ -512,10 +509,10 @@ input[data-error]::after {
   grid-column: span 8;
 }
 .hero-img img {
-  width: 100%;
   height: 100%;
   display: block;
   padding: 0;
+  object-fit: cover;
 }
 .copyrights {
   color: #fe142f;

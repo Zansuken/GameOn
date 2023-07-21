@@ -16,7 +16,6 @@ import {
   submitBtn,
   subscribeInput,
   subscribeLabel,
-  successMessageContainer,
   termsInput,
   termsLabel,
 } from "./domElements.js";
@@ -133,7 +132,7 @@ locationInput.forEach((chosenLocation) =>
 
 termsInput.addEventListener("change", () => {
   handleInputChange({
-    input: { element: termsInput, inputId: "terms" },
+    input: { element: termsLabel, inputId: "terms" },
     value: termsInput.checked,
     validationFunction: validateTerms,
   });
