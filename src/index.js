@@ -2,6 +2,7 @@ import { errorMessages, formState, invalidStyle } from "./constants.js";
 import {
   birthDateInput,
   closeBtn,
+  dialogNavLinks,
   editNavLink,
   emailInput,
   firstNameInput,
@@ -12,6 +13,9 @@ import {
   locationInput,
   modalBody,
   modalBtn,
+  navDialog,
+  navToggleButton,
+  outerDialogBg,
   participationsInput,
   submitBtn,
   subscribeInput,
@@ -52,6 +56,58 @@ export const editNav = () => {
 // Events listeners:
 
 editNavLink?.addEventListener("click", editNav);
+
+let isNavDialogOpening = false;
+
+navToggleButton.onclick = () => {
+  if (isNavDialogOpening) return;
+  navDialog.show();
+  isNavDialogOpening = true;
+  outerDialogBg.style.display = "block";
+  outerDialogBg.animate([{ opacity: 0 }, { opacity: 1 }], {
+    duration: 300,
+    fill: "forwards",
+  });
+};
+
+outerDialogBg.addEventListener("click", () => {
+  navDialog.classList.add("hide");
+  outerDialogBg.animate([{ opacity: 1 }, { opacity: 0 }], {
+    duration: 700,
+    fill: "forwards",
+  });
+  setTimeout(() => {
+    outerDialogBg.style.display = "none";
+  }, 700);
+});
+
+dialogNavLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    const currentActiveLink = document.querySelector(
+      ".dialog__content__menu li a.active"
+    );
+    if (currentActiveLink) {
+      currentActiveLink.classList.remove("active");
+    }
+    link.classList.add("active");
+    navDialog.classList.add("hide");
+    outerDialogBg.animate([{ opacity: 1 }, { opacity: 0 }], {
+      duration: 700,
+      fill: "forwards",
+    });
+    setTimeout(() => {
+      outerDialogBg.style.display = "none";
+    }, 700);
+  });
+});
+
+navDialog.addEventListener("webkitAnimationEnd", (event) => {
+  if (event.animationName === "hide") {
+    navDialog.classList.remove("hide");
+    navDialog.close();
+    isNavDialogOpening = false;
+  }
+});
 
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 

@@ -39,7 +39,7 @@ img {
 .main-navbar {
     float: right;
 }
-.topnav a {
+.main-navbar a {
   float: left;
   display: block;
   color: #000000;
@@ -51,36 +51,29 @@ img {
   font-family: Roboto, sans-serif;
 }
 
-.topnav a:hover {
+.main-navbar a:hover {
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 15px;
 }
 
-.topnav a.active {
+.main-navbar a.active {
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 15px;
 }
 
-.topnav .icon {
-  display: none;
+@media screen and (max-width: 768px) {
+  .main-navbar a {display: none;}
 }
 
 @media screen and (max-width: 768px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .topnav.responsive {position: relative;}
-  .topnav.responsive .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
+  .topnav {
+    margin: 12px 18px 0 30px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .topnav.responsive a {
     float: none;
@@ -92,18 +85,7 @@ img {
 
 
  @media screen and (max-width: 540px) {
-  .topnav {
-    margin: 12px 30px 0 30px;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-  }
+  .main-navbar a {display: none;}
   .text-control {
     height: 36px !important;
   }
@@ -114,6 +96,109 @@ img {
     letter-spacing: 0em;
   }
 } 
+@media screen and (min-width: 769px) {
+  .toggle-nav {
+    display: none !important;
+  }
+}
+
+.toggle-nav {
+  border: none;
+  color: #ff0000;
+  background-color: transparent;
+  padding: 8px 12px;
+  border-radius: 33%;
+}
+
+.toggle-nav::before {
+  font-size: 32px;
+  font-weight: 200;
+}
+
+.toggle-nav:hover {
+  border: none;
+  color: white;
+  background-color: #ff0000;
+}
+
+.dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 70vw;
+  height: 100vh;
+  background-color: #ffffff;
+  z-index: 3;
+  border: none;
+}
+
+.dialog__content {
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+}
+
+.dialog__content__menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.dialog__content__menu li {
+  list-style: none;
+  width: 100%;
+}
+
+.dialog__content__menu li a {
+  text-decoration: none;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease-in-out;
+  padding: 16px;
+  display: block;
+}
+
+.dialog__content__menu li a.active {
+  color: #ffffff;
+  background-color: #ff0000;
+  box-shadow: inset 0 0 10px #000000;
+}
+
+.outer-dialog-bg {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.dialog[open] {
+  animation: show 0.7s ease normal;
+}
+.dialog.hide {
+  animation: hide 0.7s ease normal;
+}
+@keyframes show{
+  from {
+      transform: translateX(-110%);
+  }
+  to {
+      transform: translateX(0%);
+  }
+}
+@keyframes hide{
+  to {
+      transform: translateX(-110%);
+  }
+}
 
 main {
   font-size: 130%;
@@ -125,8 +210,6 @@ main {
   margin: 1px 20px 15px;
   border-radius: 2rem;
   text-align: justify;
-
-
 }
 
 .modal-btn {
@@ -538,6 +621,7 @@ footer {
     background: #fff;
     color: #000;
     padding: 20px;
+    min-width: unset;
   }
   .hero-content::after {
     content: unset;
@@ -552,6 +636,10 @@ footer {
   .hero-text {
     width: unset;
     font-size: 1.5rem;
+  }
+  .hero-img {
+    display: flex;
+    justify-content: center;
   }
   .hero-img img {
     border-radius: 10px;

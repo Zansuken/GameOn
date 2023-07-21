@@ -1,6 +1,12 @@
 // DOM elements:
 
 export const editNavLink = document.querySelector(".edit-nav-link");
+export const navToggleButton = document.querySelector(".toggle-nav");
+export const navDialog = document.querySelector(".dialog");
+export const dialogNavLinks = document.querySelectorAll(
+  ".dialog__content__menu li a"
+);
+export const outerDialogBg = document.querySelector(".outer-dialog-bg");
 export const modalbg = document.querySelector(".bground");
 export const modal = document.querySelector(".content");
 export const modalBody = document.querySelector(".modal-body");
